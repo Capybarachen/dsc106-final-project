@@ -2,7 +2,7 @@ body {
 
   margin: 0;
 
-  background: #020817;
+  background: #020617;
 
   color: white;
 
@@ -45,6 +45,8 @@ h1 {
   line-height: 1.1;
 
   margin: 20px 0;
+
+  color: white;
 }
 
 .description {
@@ -61,9 +63,10 @@ h1 {
   width: 700px;
 
   height: 700px;
-}
 
-svg {
+  display: flex;
 
-  overflow: visible;
+  justify-content: center;
+
+  align-items: center;
 }
