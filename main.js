@@ -1,72 +1,40 @@
-const width = 900;
-const height = 900;
+const width = 700;
+const height = 700;
 
 const svg = d3.select("#globe")
   .append("svg")
   .attr("width", width)
-  .attr("height", height);
+  .attr("height", height)
+  .attr("viewBox", "0 0 700 700");
 
 const projection = d3.geoOrthographic()
-
-  .scale(260)
-
+  .scale(250)
   .translate([width / 2, height / 2])
-
-  .rotate([0, -20]);
+  .rotate([20, -15]);
 
 const path = d3.geoPath(projection);
 
 svg.append("circle")
-
   .attr("cx", width / 2)
-
   .attr("cy", height / 2)
-
-  .attr("r", 300)
-
+  .attr("r", 250)
   .attr("fill", "#082f49")
+  .style("filter", "drop-shadow(0px 0px 35px #38bdf8)");
 
-  .style(
-    "filter",
-    "drop-shadow(0px 0px 50px #38bdf8)"
-  );
+d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  .then(world => {
 
-d3.json(
-  "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
-).then(world => {
-
-  const countries = topojson.feature(
-    world,
-    world.objects.countries
-  );
-
-  svg.selectAll("path")
-
-    .data(countries.features)
-
-    .enter()
-
-    .append("path")
-
-    .attr("d", path)
-
-    .attr("fill", "#14532d")
-
-    .attr("stroke", "#67e8f9")
-
-    .attr("stroke-width", 0.3);
-
-  let rotation = 0;
-
-  d3.timer(() => {
-
-    rotation += 0.05;
-
-    projection.rotate([rotation, -20]);
+    const countries = topojson.feature(
+      world,
+      world.objects.countries
+    );
 
     svg.selectAll("path")
-      .attr("d", path);
-
+      .data(countries.features)
+      .enter()
+      .append("path")
+      .attr("d", path)
+      .attr("fill", "#14532d")
+      .attr("stroke", "#67e8f9")
+      .attr("stroke-width", 0.3);
   });
-
-});
