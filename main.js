@@ -1,6 +1,5 @@
-const width = 700;
-
-const height = 700;
+const width = 900;
+const height = 900;
 
 const svg = d3.select("#globe")
   .append("svg")
@@ -9,7 +8,7 @@ const svg = d3.select("#globe")
 
 const projection = d3.geoOrthographic()
 
-  .scale(300)
+  .scale(260)
 
   .translate([width / 2, height / 2])
 
