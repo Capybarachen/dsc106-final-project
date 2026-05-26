@@ -59,16 +59,14 @@ h1 {
 }
 
 #globe {
-
-  width: 700px;
-
-  height: 700px;
+  width: 650px;
+  height: 650px;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
+
+  overflow: visible;
 }
 
 .section-two {
