@@ -62,17 +62,23 @@ d3.json(
   let isDragging = false;
 
   d3.timer(() => {
-
+  
     if (!isDragging) {
-
+  
+      // slowly return latitude
+  
+      rotation[1] += (-15 - rotation[1]) * 0.02;
+  
+      // keep spinning
+  
       rotation[0] += 0.03;
-
+  
       projection.rotate(rotation);
-
+  
       render();
-
+  
     }
-
+  
   });
 
   // =========================
