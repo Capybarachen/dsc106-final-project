@@ -1,16 +1,69 @@
-
 body {
-  font-family: Arial, sans-serif;
-  background: #111;
+
+  margin: 0;
+
+  background: #020817;
+
   color: white;
 
-  margin: 40px;
+  font-family: Arial, sans-serif;
+
+  overflow-x: hidden;
+}
+
+.hero {
+
+  height: 100vh;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 80px;
+}
+
+.hero-text {
+
+  width: 40%;
+}
+
+.small-title {
+
+  color: #67e8f9;
+
+  letter-spacing: 2px;
+
+  font-size: 14px;
 }
 
 h1 {
-  color: #7dd3fc;
+
+  font-size: 64px;
+
+  line-height: 1.1;
+
+  margin: 20px 0;
 }
 
-#chart {
-  margin-top: 30px;
+.description {
+
+  font-size: 20px;
+
+  line-height: 1.6;
+
+  color: #cbd5e1;
+}
+
+#globe {
+
+  width: 700px;
+
+  height: 700px;
+}
+
+svg {
+
+  overflow: visible;
 }
