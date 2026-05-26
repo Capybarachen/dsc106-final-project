@@ -7,29 +7,23 @@ const svg = d3.select("#globe")
   .attr("width", width)
   .attr("height", height);
 
-const projection = d3.geoOrthographic()
-  .scale(300)
-  .translate([width / 2, height / 2]);
-
-const path = d3.geoPath(projection);
-
 svg.append("circle")
+
   .attr("cx", width / 2)
+
   .attr("cy", height / 2)
-  .attr("r", 300)
-  .attr("fill", "#0f172a")
-  .attr("stroke", "#38bdf8")
-  .attr("stroke-width", 2);
 
-let rotation = 0;
+  .attr("r", 280)
 
-d3.timer(() => {
+  .attr("fill", "#0ea5e9")
 
-  rotation += 0.1;
+  .attr("opacity", 0.25)
 
-  projection.rotate([rotation, -15]);
+  .attr("stroke", "#67e8f9")
 
-  svg.selectAll("path")
-    .attr("d", path);
+  .attr("stroke-width", 4)
 
-});
+  .style(
+    "filter",
+    "drop-shadow(0px 0px 40px #38bdf8)"
+  );
