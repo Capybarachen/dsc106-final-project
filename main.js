@@ -14,7 +14,7 @@ const projection = d3.geoOrthographic()
 
 const path = d3.geoPath(projection);
 
-const globe = svg.append("circle")
+svg.append("circle")
   .attr("cx", width / 2)
   .attr("cy", height / 2)
   .attr("r", 250)
@@ -50,6 +50,7 @@ d3.json(
 
     countriesGroup.selectAll("path")
       .attr("d", path);
+
   }
 
   // =========================
@@ -59,18 +60,19 @@ d3.json(
   let rotation = projection.rotate();
 
   let isDragging = false;
-  
+
   d3.timer(() => {
-  
+
     if (!isDragging) {
-  
+
       rotation[0] += 0.03;
-  
+
       projection.rotate(rotation);
-  
+
       render();
+
     }
-  
+
   });
 
   // =========================
@@ -78,34 +80,36 @@ d3.json(
   // =========================
 
   svg.call(
-  
+
     d3.drag()
-  
+
       .on("start", () => {
-  
+
         isDragging = true;
-  
+
       })
-  
+
       .on("drag", (event) => {
-  
+
         rotation = projection.rotate();
-  
+
         const rotateSpeed = 0.2;
-  
+
         projection.rotate([
           rotation[0] + event.dx * rotateSpeed,
           rotation[1] - event.dy * rotateSpeed
         ]);
-  
+
         render();
-  
+
       })
-  
+
       .on("end", () => {
-  
+
         isDragging = false;
-  
+
       })
-  
+
   );
+
+});
