@@ -78,24 +78,34 @@ d3.json(
   // =========================
 
   svg.call(
-
+  
     d3.drag()
-
+  
+      .on("start", () => {
+  
+        isDragging = true;
+  
+      })
+  
       .on("drag", (event) => {
-
+  
         rotation = projection.rotate();
-
+  
         const rotateSpeed = 0.2;
-
+  
         projection.rotate([
           rotation[0] + event.dx * rotateSpeed,
           rotation[1] - event.dy * rotateSpeed
         ]);
-
+  
         render();
-
+  
       })
-
+  
+      .on("end", () => {
+  
+        isDragging = false;
+  
+      })
+  
   );
-
-});
