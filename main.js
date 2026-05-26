@@ -58,14 +58,19 @@ d3.json(
 
   let rotation = projection.rotate();
 
+  let isDragging = false;
+  
   d3.timer(() => {
-
-    rotation[0] += 0.03;
-
-    projection.rotate(rotation);
-
-    render();
-
+  
+    if (!isDragging) {
+  
+      rotation[0] += 0.03;
+  
+      projection.rotate(rotation);
+  
+      render();
+    }
+  
   });
 
   // =========================
