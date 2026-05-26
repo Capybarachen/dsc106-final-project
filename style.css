@@ -119,3 +119,56 @@ h2 {
 
   color: #cbd5e1;
 }
+
+.section-two,
+.section-three,
+.section-four {
+
+  height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  padding: 0 80px;
+}
+
+.section-content {
+
+  max-width: 900px;
+}
+
+.section-label {
+
+  color: #67e8f9;
+
+  letter-spacing: 3px;
+
+  font-size: 14px;
+
+  margin-bottom: 20px;
+}
+
+h2 {
+
+  font-size: 72px;
+
+  line-height: 1.1;
+
+  margin-bottom: 30px;
+
+  color: white;
+}
+
+.section-text {
+
+  font-size: 24px;
+
+  line-height: 1.8;
+
+  color: #cbd5e1;
+}
