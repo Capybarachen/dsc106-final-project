@@ -10,11 +10,52 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
+
   <script src="https://unpkg.com/topojson-client@3"></script>
 
 </head>
 
 <body>
+
+  <!-- =========================
+       ALIEN INTRO OVERLAY
+  ========================== -->
+
+  <div id="intro-overlay">
+
+    <div class="alien-scene">
+
+      <img
+        src="assets/alien.gif"
+        class="alien left-alien"
+      >
+
+      <div id="dialogue-box">
+
+        <p id="dialogue-text">
+
+          Alien 1: This planet looks beautiful... <br><br>
+
+          Alien 2: But something is changing. <br><br>
+
+          Alien 1: Let’s investigate.
+
+        </p>
+
+        <button id="start-button">
+          Begin Investigation
+        </button>
+
+      </div>
+
+      <img
+        src="assets/alien.gif"
+        class="alien right-alien"
+      >
+
+    </div>
+
+  </div>
 
   <!-- =========================
        HERO SECTION
@@ -34,8 +75,10 @@
       </h1>
 
       <p class="description">
+
         Exploring aerosol concentration and climate
         changes from 1950 to 2014.
+
       </p>
 
     </div>
