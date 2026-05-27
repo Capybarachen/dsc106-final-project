@@ -141,24 +141,37 @@ d3.json(
 });
 
 // =========================
-// ALIEN INTRO DIALOGUE
+// ALIEN DIALOGUE
 // =========================
 
 const overlay = document.getElementById(
   "intro-overlay"
 );
 
-const dialogueText = document.getElementById(
-  "dialogue-text"
+const leftDialogue = document.getElementById(
+  "left-dialogue"
+);
+
+const rightDialogue = document.getElementById(
+  "right-dialogue"
 );
 
 const dialogueLines = [
 
-  "Alien 1: This planet looks beautiful...",
+  {
+    side: "left",
+    text: "This planet looks beautiful..."
+  },
 
-  "Alien 2: But something is changing.",
+  {
+    side: "right",
+    text: "But something is changing."
+  },
 
-  "Alien 1: Let's investigate."
+  {
+    side: "left",
+    text: "Let's investigate."
+  }
 
 ];
 
@@ -168,16 +181,33 @@ overlay.addEventListener("click", () => {
 
   dialogueIndex++;
 
-  // show next dialogue
-
   if (dialogueIndex < dialogueLines.length) {
 
-    dialogueText.innerText =
+    const current =
       dialogueLines[dialogueIndex];
 
-  }
+    // clear old text
 
-  // finish intro
+    leftDialogue.innerText = "";
+    rightDialogue.innerText = "";
+
+    // show current speaker
+
+    if (current.side === "left") {
+
+      leftDialogue.innerText =
+        current.text;
+
+    }
+
+    else {
+
+      rightDialogue.innerText =
+        current.text;
+
+    }
+
+  }
 
   else {
 
@@ -191,4 +221,5 @@ overlay.addEventListener("click", () => {
 
   }
 
+});
 });
