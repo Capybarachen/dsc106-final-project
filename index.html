@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
+
   <script src="https://unpkg.com/topojson-client@3"></script>
 
 </head>
@@ -35,9 +36,7 @@
 
         <div class="speech-box left-box">
 
-          <p id="left-dialogue">
-            Click anywhere to begin...
-          </p>
+          <p id="left-dialogue"></p>
 
         </div>
 
@@ -82,8 +81,10 @@
       </h1>
 
       <p class="description">
+
         Exploring aerosol concentration and climate
         changes from 1950 to 2014.
+
       </p>
 
     </div>
@@ -115,6 +116,10 @@
 
       </p>
 
+      <!-- MAP PLACEHOLDER -->
+
+      <div id="global-map"></div>
+
     </div>
 
   </section>
@@ -125,26 +130,108 @@
 
   <section class="section-three">
 
-    <div class="section-content">
+    <div class="chart-panel">
 
-      <p class="section-label">
-        RELATIONSHIP ANALYSIS
-      </p>
+      <!-- TOP -->
 
-      <h2>
-        Aerosols And Temperature
-      </h2>
+      <div class="chart-top">
 
-      <p class="section-text">
+        <div>
 
-        Investigate the relationship between
-        aerosol concentration and global temperature.
+          <p class="section-label">
+            RELATIONSHIP ANALYSIS
+          </p>
 
-      </p>
+          <h2>
+            Aerosols And Temperature
+          </h2>
+
+          <p class="section-text">
+
+            This chart compares aerosol optical depth
+            and temperature anomaly from 1850 to 2014.
+
+          </p>
+
+        </div>
+
+        <div id="corr-badge" class="badge">
+
+          r(AOD, Temp) =
+
+        </div>
+
+      </div>
+
+      <!-- CONTROLS -->
+
+      <div class="chart-controls">
+
+        <button id="play-btn">
+
+          ▶ Play
+
+        </button>
+
+        <label>
+
+          Year:
+
+          <input
+            id="year-scrub"
+            type="range"
+            min="1850"
+            max="2014"
+            value="2014"
+          >
+
+          <span id="year-display">
+
+            2014
+
+          </span>
+
+        </label>
+
+        <label>
+
+          Smooth:
+
+          <select id="smooth-sel">
+
+            <option value="1">
+              Raw
+            </option>
+
+            <option value="12" selected>
+              12-month
+            </option>
+
+            <option value="60">
+              5-year
+            </option>
+
+          </select>
+
+        </label>
+
+      </div>
+
+      <!-- CHART -->
+
+      <div class="chart-wrap">
+
+        <svg id="chart1"></svg>
+
+      </div>
 
     </div>
 
   </section>
+
+  <!-- TOOLTIP -->
+
+  <div id="tooltip"></div>
 
   <!-- =========================
        SECTION FOUR
