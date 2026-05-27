@@ -141,7 +141,7 @@ d3.json(
 });
 
 // =========================
-// ALIEN DIALOGUE
+// AUTO DIALOGUE SYSTEM
 // =========================
 
 const overlay = document.getElementById(
@@ -175,41 +175,22 @@ const dialogueLines = [
 
 ];
 
-let dialogueIndex = -1;
+let dialogueIndex = 0;
 
-overlay.addEventListener("click", () => {
+// clear at start
 
-  dialogueIndex++;
+leftDialogue.innerText = "";
+rightDialogue.innerText = "";
 
-  if (dialogueIndex < dialogueLines.length) {
+// =========================
+// SHOW DIALOGUE
+// =========================
 
-    const current =
-      dialogueLines[dialogueIndex];
+function showDialogue() {
 
-    // clear old text
+  // finished all dialogue
 
-    leftDialogue.innerText = "";
-    rightDialogue.innerText = "";
-
-    // show current speaker
-
-    if (current.side === "left") {
-
-      leftDialogue.innerText =
-        current.text;
-
-    }
-
-    else {
-
-      rightDialogue.innerText =
-        current.text;
-
-    }
-
-  }
-
-  else {
+  if (dialogueIndex >= dialogueLines.length) {
 
     overlay.style.opacity = 0;
 
@@ -219,7 +200,45 @@ overlay.addEventListener("click", () => {
 
     }, 1500);
 
+    return;
   }
 
-});
-});
+  // clear previous dialogue
+
+  leftDialogue.innerText = "";
+  rightDialogue.innerText = "";
+
+  // current line
+
+  const current =
+    dialogueLines[dialogueIndex];
+
+  // show on correct side
+
+  if (current.side === "left") {
+
+    leftDialogue.innerText =
+      current.text;
+
+  }
+
+  else {
+
+    rightDialogue.innerText =
+      current.text;
+
+  }
+
+  dialogueIndex++;
+
+  // next dialogue after 2.5 sec
+
+  setTimeout(showDialogue, 2500);
+
+}
+
+// =========================
+// START AUTOMATICALLY
+// =========================
+
+setTimeout(showDialogue, 1200);
