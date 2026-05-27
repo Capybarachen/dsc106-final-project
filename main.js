@@ -533,3 +533,83 @@ function drawChart1() {
     .on("mouseleave", () => { focus.style("display", "none"); hideTip(); });
 }
 
+// ── set max year (no full redraw — just moves the clip rect + updates badge) ──
+function setMaxYear(yr) {
+  MAX_YEAR = Math.max(1850, Math.min(2014, yr));
+  document.getElementById("year-scrub").value  = MAX_YEAR;
+  document.getElementById("year-display").textContent = Math.round(MAX_YEAR);
+
+  if (CHART1_XSC) {
+    d3.select("#c1-clip-rect").attr("width", Math.max(0, CHART1_XSC(MAX_YEAR)));
+
+    // Refresh Pearson r for the visible window
+    const { monthly } = DATA;
+    const cutIdx = d3.bisectRight(monthly.time, MAX_YEAR);
+    const r = pearson(monthly.aod.slice(0, cutIdx), monthly.tas_anomaly.slice(0, cutIdx));
+    d3.select("#corr-badge")
+      .attr("class", `badge ${r >= 0 ? "badge-pos" : "badge-neg"}`)
+      .text(`r(AOD, Temp) = ${r.toFixed(3)}`);
+  }
+}
+
+// ── wire smoothing control + time scrubber + play button ─────────────────────
+function wireControls() {
+  document.getElementById("smooth-sel").addEventListener("change", function () {
+    SMOOTH_N = +this.value;
+    drawChart1();
+  });
+
+  document.getElementById("year-scrub").addEventListener("input", function () {
+    if (PLAY_INTERVAL) stopPlay();
+    setMaxYear(+this.value);
+  });
+
+  document.getElementById("play-btn").addEventListener("click", function () {
+    if (PLAY_INTERVAL) {
+      stopPlay();
+    } else {
+      if (MAX_YEAR >= 2014) setMaxYear(1850); // restart from beginning
+      this.textContent = "⏸ Pause";
+      PLAY_INTERVAL = setInterval(() => {
+        setMaxYear(MAX_YEAR + 1);
+        if (MAX_YEAR >= 2014) stopPlay();
+      }, 40); // ~25 yrs/sec → ~6.5 seconds total
+    }
+  });
+}
+
+function stopPlay() {
+  clearInterval(PLAY_INTERVAL);
+  PLAY_INTERVAL = null;
+  const btn = document.getElementById("play-btn");
+  if (btn) btn.textContent = "▶ Play";
+}
+
+// ── resize handler ────────────────────────────────────────────────────────────
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(drawChart1, 180);
+});
+
+// ── entry point ───────────────────────────────────────────────────────────────
+d3.json(DATA_URL).then(data => {
+  DATA = data;
+
+  // Update hero stats from real data
+  const m   = data.meta;
+  const pct = Math.round((m.aod_2000s_mean / m.aod_1850s_mean - 1) * 100);
+  const statAod = document.getElementById("stat-aod-pct");
+  const statTas = document.getElementById("stat-warming");
+  if (statAod) statAod.textContent = `+${pct}%`;
+  if (statTas) statTas.textContent = `+${m.warming_total.toFixed(2)}°C`;
+
+  wireControls();
+  drawChart1();
+}).catch(err => {
+  document.querySelector(".chart-wrap").innerHTML =
+    `<div style="color:#f87171;font-size:.85rem;padding:20px">
+      <strong>data/timeseries.json not found.</strong><br>
+      Serve with a local HTTP server (e.g. <code>python -m http.server 8765</code>).<br>
+      <em>${err.message}</em></div>`;
+});
