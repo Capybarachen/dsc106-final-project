@@ -362,6 +362,44 @@ function pearson(xs, ys) {
 }
 
 
+function dims(id, height) {
+
+  const svg =
+    document.getElementById(id);
+
+  const width =
+    svg.clientWidth || 1200;
+
+  const margin = {
+
+    top: 30,
+    right: 70,
+    bottom: 50,
+    left: 70
+
+  };
+
+  return {
+
+    W: width,
+
+    H: height,
+
+    M: margin,
+
+    iW:
+      width -
+      margin.left -
+      margin.right,
+
+    iH:
+      height -
+      margin.top -
+      margin.bottom
+
+  };
+
+}
 
 
 // ════════════════════════════════════════════════════════════════════════════
