@@ -119,3 +119,23 @@ d3.json(
   );
 
 });
+
+  const overlay = document.getElementById(
+    "intro-overlay"
+  );
+  
+  const button = document.getElementById(
+    "start-button"
+  );
+  
+  button.addEventListener("click", () => {
+  
+    overlay.style.opacity = 0;
+  
+    setTimeout(() => {
+  
+      overlay.style.display = "none";
+  
+    }, 1500);
+  
+  });
