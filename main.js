@@ -242,3 +242,123 @@ function showDialogue() {
 // =========================
 
 setTimeout(showDialogue, 1200);
+
+// =========================
+// CHART 1 DATA
+// =========================
+
+const DATA_URL = "data/timeseries.json";
+
+const C = {
+  aod: "#f59e0b",
+  tas: "#f87171",
+  accent: "#818cf8"
+};
+
+let DATA = null;
+
+let SMOOTH_N = 12;
+
+let MAX_YEAR = 2014;
+
+let CHART1_XSC = null;
+
+let PLAY_INTERVAL = null;
+
+// =========================
+// TOOLTIP
+// =========================
+
+const tip = d3.select("#tooltip");
+
+function showTip(html, e) {
+
+  tip.html(html)
+    .style("opacity", 1)
+    .style("left", (e.clientX + 16) + "px")
+    .style("top", (e.clientY - 8) + "px");
+
+}
+
+function hideTip() {
+
+  tip.style("opacity", 0);
+
+}
+
+// =========================
+// ROLLING MEAN
+// =========================
+
+function rolling(arr, n) {
+
+  if (n <= 1) return arr;
+
+  const h = Math.floor(n / 2);
+
+  return arr.map((_, i) => {
+
+    const slice = arr.slice(
+      Math.max(0, i - h),
+      Math.min(arr.length, i + h + 1)
+    ).filter(v => v != null);
+
+    return slice.length
+      ? slice.reduce((a, b) => a + b, 0) / slice.length
+      : null;
+
+  });
+
+}
+
+// =========================
+// PEARSON CORRELATION
+// =========================
+
+function pearson(xs, ys) {
+
+  const pts = xs.map(
+    (x, i) => [x, ys[i]]
+  ).filter(
+    p => p[0] != null && p[1] != null
+  );
+
+  if (pts.length < 3) return 0;
+
+  const n = pts.length;
+
+  const mx =
+    pts.reduce((s, p) => s + p[0], 0) / n;
+
+  const my =
+    pts.reduce((s, p) => s + p[1], 0) / n;
+
+  const num = pts.reduce(
+    (s, p) =>
+      s + (p[0] - mx) * (p[1] - my),
+    0
+  );
+
+  const den = Math.sqrt(
+
+    pts.reduce(
+      (s, p) =>
+        s + (p[0] - mx) ** 2,
+      0
+    )
+
+    *
+
+    pts.reduce(
+      (s, p) =>
+        s + (p[1] - my) ** 2,
+      0
+    )
+
+  );
+
+  return den === 0 ? 0 : num / den;
+
+}
+
+
