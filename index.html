@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
-
   <script src="https://unpkg.com/topojson-client@3"></script>
 
 </head>
@@ -18,30 +17,48 @@
 <body>
 
   <!-- =========================
-       ALIEN INTRO OVERLAY
+       INTRO OVERLAY
   ========================== -->
 
   <div id="intro-overlay">
 
-    <div class="alien-scene">
+    <div class="dialogue-container">
 
-      <img
-        src="assets/alien.gif"
-        class="alien left-alien"
-      >
+      <!-- LEFT ALIEN -->
 
-      <div id="dialogue-box">
+      <div class="alien-side left-side">
 
-        <p id="dialogue-text">
-          Click anywhere to begin...
-        </p>
+        <img
+          src="alien.png"
+          class="alien-img"
+        >
+
+        <div class="speech-box left-box">
+
+          <p id="left-dialogue">
+            Click anywhere to begin...
+          </p>
+
+        </div>
 
       </div>
 
-      <img
-        src="assets/alien.gif"
-        class="alien right-alien"
-      >
+      <!-- RIGHT ALIEN -->
+
+      <div class="alien-side right-side">
+
+        <div class="speech-box right-box">
+
+          <p id="right-dialogue"></p>
+
+        </div>
+
+        <img
+          src="alien.png"
+          class="alien-img"
+        >
+
+      </div>
 
     </div>
 
@@ -65,10 +82,8 @@
       </h1>
 
       <p class="description">
-
         Exploring aerosol concentration and climate
         changes from 1950 to 2014.
-
       </p>
 
     </div>
