@@ -5,12 +5,19 @@
 
   <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Climate In Motion</title>
 
   <link rel="stylesheet" href="style.css">
 
+  <!-- D3 -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
+  <!-- TopoJSON -->
   <script src="https://unpkg.com/topojson-client@3"></script>
 
 </head>
@@ -25,13 +32,14 @@
 
     <div class="dialogue-container">
 
-      <!-- LEFT ALIEN -->
+      <!-- LEFT -->
 
       <div class="alien-side left-side">
 
         <img
           src="assets/alien.gif"
           class="alien-img"
+          alt="Alien"
         >
 
         <div class="speech-box left-box">
@@ -42,7 +50,7 @@
 
       </div>
 
-      <!-- RIGHT ALIEN -->
+      <!-- RIGHT -->
 
       <div class="alien-side right-side">
 
@@ -55,6 +63,7 @@
         <img
           src="assets/alien.gif"
           class="alien-img"
+          alt="Alien"
         >
 
       </div>
@@ -72,12 +81,16 @@
     <div class="hero-text">
 
       <p class="small-title">
+
         CLIMATE IN MOTION
+
       </p>
 
       <h1>
+
         How Air Pollution <br>
         Changes Our Climate
+
       </h1>
 
       <p class="description">
@@ -88,6 +101,8 @@
       </p>
 
     </div>
+
+    <!-- GLOBE -->
 
     <div id="globe"></div>
 
@@ -102,11 +117,15 @@
     <div class="section-content">
 
       <p class="section-label">
+
         GLOBAL EXPLORATION
+
       </p>
 
       <h2>
+
         Aerosol Concentration Around The World
+
       </h2>
 
       <p class="section-text">
@@ -116,7 +135,7 @@
 
       </p>
 
-      <!-- MAP PLACEHOLDER -->
+      <!-- MAP -->
 
       <div id="global-map"></div>
 
@@ -132,18 +151,22 @@
 
     <div class="chart-panel">
 
-      <!-- TOP -->
+      <!-- HEADER -->
 
       <div class="chart-top">
 
         <div>
 
           <p class="section-label">
+
             RELATIONSHIP ANALYSIS
+
           </p>
 
           <h2>
+
             Aerosols And Temperature
+
           </h2>
 
           <p class="section-text">
@@ -155,7 +178,12 @@
 
         </div>
 
-        <div id="corr-badge" class="badge">
+        <!-- CORRELATION -->
+
+        <div
+          id="corr-badge"
+          class="badge"
+        >
 
           r(AOD, Temp) =
 
@@ -167,11 +195,15 @@
 
       <div class="chart-controls">
 
+        <!-- PLAY -->
+
         <button id="play-btn">
 
           ▶ Play
 
         </button>
+
+        <!-- YEAR -->
 
         <label>
 
@@ -193,6 +225,8 @@
 
         </label>
 
+        <!-- SMOOTH -->
+
         <label>
 
           Smooth:
@@ -200,15 +234,24 @@
           <select id="smooth-sel">
 
             <option value="1">
+
               Raw
+
             </option>
 
-            <option value="12" selected>
+            <option
+              value="12"
+              selected
+            >
+
               12-month
+
             </option>
 
             <option value="60">
+
               5-year
+
             </option>
 
           </select>
@@ -242,11 +285,15 @@
     <div class="section-content">
 
       <p class="section-label">
+
         CLIMATE TRENDS
+
       </p>
 
       <h2>
+
         Long-Term Climate Change
+
       </h2>
 
       <p class="section-text">
@@ -259,6 +306,10 @@
     </div>
 
   </section>
+
+  <!-- =========================
+       SCRIPT
+  ========================== -->
 
   <script src="main.js"></script>
 
