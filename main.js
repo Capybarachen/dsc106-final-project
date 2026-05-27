@@ -362,3 +362,136 @@ function pearson(xs, ys) {
 }
 
 
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// CHART 1 — Dual-axis time series (AND section)
+// ════════════════════════════════════════════════════════════════════════════
+function drawChart1() {
+  const { monthly, events } = DATA;
+  const d   = dims("chart1", 340);
+  const svg = d3.select("#chart1").attr("width", d.W).attr("height", d.H).html("");
+  const g   = svg.append("g").attr("transform", `translate(${d.M.left},${d.M.top})`);
+
+  const aodSmooth = rolling(monthly.aod, SMOOTH_N);
+  const tasSmooth = rolling(monthly.tas_anomaly, SMOOTH_N);
+
+  const xSc = d3.scaleLinear()
+    .domain(d3.extent(monthly.time)).range([0, d.iW]);
+  CHART1_XSC = xSc; // expose for live clip updates
+
+  const aodSc = d3.scaleLinear()
+    .domain(d3.extent(monthly.aod.filter(v => v != null))).nice()
+    .range([d.iH, 0]);
+
+  const tasExt = d3.extent(monthly.tas_anomaly.filter(v => v != null));
+  const tasSc  = d3.scaleLinear().domain(tasExt).nice().range([d.iH, 0]);
+
+  // Clip path — grows as MAX_YEAR advances
+  svg.append("defs").html("").append("clipPath").attr("id", "c1-clip")
+    .append("rect").attr("id", "c1-clip-rect")
+      .attr("x", 0).attr("y", -d.M.top)
+      .attr("width", Math.max(0, xSc(MAX_YEAR)))
+      .attr("height", d.H);
+
+  // Grid
+  g.append("g").attr("class", "grid")
+    .call(d3.axisLeft(tasSc).ticks(5).tickSize(-d.iW).tickFormat(""))
+    .selectAll(".domain, line").attr("stroke", "#1a2332");
+
+  // Axes
+  g.append("g").attr("class", "axis")
+    .attr("transform", `translate(0,${d.iH})`)
+    .call(d3.axisBottom(xSc).ticks(8).tickFormat(d3.format("d")));
+
+  g.append("g").attr("class", "axis")
+    .call(d3.axisLeft(aodSc).ticks(5).tickFormat(d3.format(".3f")));
+
+  const axisR = g.append("g").attr("class", "axis")
+    .attr("transform", `translate(${d.iW},0)`)
+    .call(d3.axisRight(tasSc).ticks(5).tickFormat(v => `${v > 0 ? "+" : ""}${v.toFixed(2)}°`));
+  axisR.selectAll("text").style("fill", C.tas);
+
+  // Axis labels
+  g.append("text").attr("x", -d.iH / 2).attr("y", -38)
+    .attr("transform", "rotate(-90)").attr("text-anchor", "middle")
+    .attr("fill", C.aod).attr("font-size", 10).text("AOD (550 nm)");
+  g.append("text")
+    .attr("transform", `translate(${d.iW + 48},0) rotate(90)`)
+    .attr("x", -d.iH / 2).attr("y", 0)
+    .attr("text-anchor", "middle").attr("fill", C.tas).attr("font-size", 10)
+    .text("Temp. Anomaly (°C)");
+
+  // Volcanic event lines
+  events.filter(e => e.type === "volcano").forEach(ev => {
+    const x = xSc(ev.year);
+    g.append("line")
+      .attr("x1", x).attr("x2", x).attr("y1", 0).attr("y2", d.iH)
+      .attr("stroke", C.accent).attr("stroke-width", 1)
+      .attr("stroke-dasharray", "3 3").attr("opacity", 0.5);
+    g.append("text")
+      .attr("x", x + 3).attr("y", 12)
+      .attr("font-size", 8).attr("fill", C.accent).attr("opacity", 0.8)
+      .text(ev.name.split(" ")[ev.name.includes("Mt.") ? 1 : 0]);
+  });
+
+  // Line generators
+  const lineAOD = d3.line()
+    .x((_, i) => xSc(monthly.time[i]))
+    .y(v => aodSc(v))
+    .defined(v => v != null);
+
+  const lineTAS = d3.line()
+    .x((_, i) => xSc(monthly.time[i]))
+    .y(v => tasSc(v))
+    .defined(v => v != null);
+
+  g.append("path").datum(aodSmooth)
+    .attr("fill", "none").attr("stroke", C.aod)
+    .attr("stroke-width", SMOOTH_N > 1 ? 2 : 1).attr("opacity", SMOOTH_N > 1 ? 1 : 0.5)
+    .attr("clip-path", "url(#c1-clip)")
+    .attr("d", lineAOD);
+
+  g.append("path").datum(tasSmooth)
+    .attr("fill", "none").attr("stroke", C.tas)
+    .attr("stroke-width", SMOOTH_N > 1 ? 2 : 1).attr("opacity", SMOOTH_N > 1 ? 1 : 0.5)
+    .attr("clip-path", "url(#c1-clip)")
+    .attr("d", lineTAS);
+
+  // Correlation badge — computed up to MAX_YEAR only
+  const cutIdx = d3.bisectRight(monthly.time, MAX_YEAR);
+  const r = pearson(monthly.aod.slice(0, cutIdx), monthly.tas_anomaly.slice(0, cutIdx));
+  d3.select("#corr-badge")
+    .attr("class", `badge ${r >= 0 ? "badge-pos" : "badge-neg"}`)
+    .text(`r(AOD, Temp) = ${r.toFixed(3)}`);
+
+  // Hover focus line
+  const focus = g.append("g").attr("id", "c1-focus").style("display", "none");
+  focus.append("line").attr("class", "focus-line")
+    .attr("y1", 0).attr("y2", d.iH)
+    .attr("stroke", "#475569").attr("stroke-dasharray", "4 2");
+
+  // Invisible overlay for mouse events
+  g.append("rect")
+    .attr("width", d.iW).attr("height", d.iH).attr("fill", "transparent")
+    .on("mousemove", function (event) {
+      const [mx] = d3.pointer(event, this);
+      const yr   = Math.min(xSc.invert(mx), MAX_YEAR);
+      const idx  = d3.bisectCenter(monthly.time, yr);
+      const t    = monthly.time[idx];
+      const a    = monthly.aod[idx];
+      const ts   = monthly.tas_anomaly[idx];
+      focus.style("display", null)
+        .select(".focus-line").attr("x1", xSc(t)).attr("x2", xSc(t));
+      showTip(
+        `<strong>${Math.floor(t)} · Mo.${Math.round((t % 1) * 12) + 1}</strong>
+         <div class="row"><span style="color:${C.aod}">AOD</span>
+           <span class="val">${a != null ? a.toFixed(4) : "—"}</span></div>
+         <div class="row"><span style="color:${C.tas}">Temp. Anom.</span>
+           <span class="val">${ts != null ? (ts > 0 ? "+" : "") + ts.toFixed(3) + " °C" : "—"}</span></div>`,
+        event
+      );
+    })
+    .on("mouseleave", () => { focus.style("display", "none"); hideTip(); });
+}
+
