@@ -170,3 +170,89 @@ h2 {
 
   color: #cbd5e1;
 }
+
+#intro-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100vh;
+
+  background: #000814;
+
+  z-index: 9999;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  transition: opacity 1.5s ease;
+}
+
+.alien-scene {
+
+  width: 100%;
+
+  display: flex;
+
+  justify-content: space-around;
+
+  align-items: center;
+
+  padding: 0 100px;
+}
+
+.alien {
+
+  width: 220px;
+}
+
+#dialogue-box {
+
+  background: rgba(255,255,255,0.08);
+
+  border: 1px solid #67e8f9;
+
+  padding: 40px;
+
+  border-radius: 20px;
+
+  max-width: 500px;
+
+  text-align: center;
+
+  backdrop-filter: blur(10px);
+}
+
+#dialogue-text {
+
+  font-size: 28px;
+
+  color: white;
+
+  line-height: 1.6;
+
+  margin-bottom: 30px;
+}
+
+#start-button {
+
+  padding: 15px 30px;
+
+  background: #38bdf8;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
