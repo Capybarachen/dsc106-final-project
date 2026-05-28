@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Climate In Motion</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+</head>
+<body>
+  <div id="progress-bar"></div>
+
+  <div id="intro-overlay" aria-label="Intro dialogue">
+    <button id="skip-intro" type="button">Skip intro</button>
+    <div class="stars"></div>
+    <div class="dialogue-container">
+      <div class="alien-side left-side">
+        <img src="assets/alien.gif" class="alien-img" alt="Alien character" />
+        <div class="speech-box left-box"><p id="left-dialogue"></p></div>
+      </div>
+      <div class="alien-side right-side">
+        <div class="speech-box right-box"><p id="right-dialogue"></p></div>
+        <img src="assets/alien.gif" class="alien-img" alt="Alien character" />
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="logo" href="#top">Climate In Motion</a>
+    <nav>
+      <a href="#global">Global</a>
+      <a href="#relationship">Relationship</a>
+      <a href="#trends">Trends</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-text reveal">
+        <p class="eyebrow">CLIMATE DATA STORY</p>
+        <h1>How air pollution changes our climate</h1>
+        <p class="description">A cinematic exploration of aerosol concentration, volcanic events, and temperature change from 1850 to 2014.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#relationship">Explore the data</a>
+          <a class="ghost-btn" href="#global">View the globe</a>
+        </div>
+        <div class="stats-grid" aria-label="Key climate statistics">
+          <article class="stat-card">
+            <span id="stat-aod-pct">—</span>
+            <p>AOD change, 1850s to 2000s</p>
+          </article>
+          <article class="stat-card">
+            <span id="stat-warming">—</span>
+            <p>Total temperature anomaly shift</p>
+          </article>
+        </div>
+      </div>
+      <div class="globe-card reveal">
+        <div id="globe" aria-label="Rotating globe visualization"></div>
+        <p class="microcopy">Drag the planet to rotate it.</p>
+      </div>
+    </section>
+
+    <section id="global" class="section-two section-shell">
+      <div class="section-content reveal">
+        <p class="eyebrow">GLOBAL EXPLORATION</p>
+        <h2>Aerosol concentration around the world</h2>
+        <p class="section-text">Aerosols are tiny particles suspended in the atmosphere. They can scatter sunlight, interact with clouds, and temporarily cool or warm regional climates.</p>
+        <div class="insight-grid">
+          <article class="insight-card"><strong>Industry</strong><span>Human activity can increase aerosol load.</span></article>
+          <article class="insight-card"><strong>Volcanoes</strong><span>Large eruptions create sharp temporary spikes.</span></article>
+          <article class="insight-card"><strong>Climate</strong><span>Temperature response depends on timing, location, and particle type.</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="relationship" class="section-three section-shell">
+      <div class="chart-panel reveal">
+        <div class="chart-top">
+          <div>
+            <p class="eyebrow">RELATIONSHIP ANALYSIS</p>
+            <h2>Aerosols and temperature</h2>
+            <p class="section-text">Use the controls to reveal the timeline. Volcanic eruptions are marked as vertical lines.</p>
+          </div>
+          <div id="corr-badge" class="badge">r(AOD, Temp) = —</div>
+        </div>
+
+        <div class="chart-controls">
+          <button id="play-btn" type="button">▶ Play</button>
+          <label>Year
+            <input id="year-scrub" type="range" min="1850" max="2014" value="2014" />
+            <span id="year-display">2014</span>
+          </label>
+          <label>Smooth
+            <select id="smooth-sel">
+              <option value="1">Raw</option>
+              <option value="12" selected>12-month</option>
+              <option value="60">5-year</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="chart-wrap"><svg id="chart1" role="img" aria-label="AOD and temperature anomaly time series chart"></svg></div>
+        <div class="legend-row">
+          <span><i class="dot aod"></i>AOD</span>
+          <span><i class="dot temp"></i>Temperature anomaly</span>
+          <span><i class="dash"></i>Volcanic eruption</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="trends" class="section-four section-shell">
+      <div class="section-content reveal">
+        <p class="eyebrow">CLIMATE TRENDS</p>
+        <h2>Long-term change is not a straight line</h2>
+        <p class="section-text">Aerosols can create short-term disruptions, but the longer climate record shows persistent warming. Good climate storytelling needs both the spikes and the trend.</p>
+        <a class="primary-btn" href="#top">Back to top</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="tooltip"></div>
+  <script src="main.js"></script>
+</body>
+</html>
