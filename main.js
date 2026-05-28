@@ -118,7 +118,6 @@ d3.csv("aerosol_1950_2014_by_country.csv")
 
 });
 
-let countriesGroup;
 d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world => {
   const countries = topojson.feature(world, world.objects.countries);
   countriesGroup = globeSvg.append("g");
