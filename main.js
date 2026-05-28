@@ -7,6 +7,14 @@ let SMOOTH_N = 12;
 let MAX_YEAR = 2014;
 let CHART1_XSC = null;
 let PLAY_INTERVAL = null;
+let countriesGroup;
+let selectedYear = 1950;
+
+const colorScale = d3.scaleThreshold()
+  .domain([0.08, 0.16, 0.24, 0.32, 0.40])
+  .range(d3.schemeYlOrRd[6]);
+
+let aerosolLookup = {};
 
 // ---------- Scroll progress + reveal ----------
 function updateProgress() {
@@ -89,6 +97,27 @@ globeSvg.append("circle")
   .attr("stroke", "rgba(103,232,249,.55)")
   .attr("stroke-width", 1.2);
 
+d3.csv("aerosol_1950_2014_by_country.csv")
+.then(data => {
+
+  data.forEach(d => {
+
+    const year =
+      new Date(d.time).getUTCFullYear();
+
+    const country = d.name;
+
+    if (!aerosolLookup[year]) {
+      aerosolLookup[year] = {};
+    }
+
+    aerosolLookup[year][country] =
+      +d.od550aer;
+
+  });
+
+});
+
 let countriesGroup;
 d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world => {
   const countries = topojson.feature(world, world.objects.countries);
@@ -98,11 +127,30 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("fill", "#166534")
+    .attr("fill", d => {
+
+      const name = d.properties.name;
+    
+      const value =
+        aerosolLookup[selectedYear]?.[name];
+    
+      return value != null
+        ? colorScale(value)
+        : "#1f2937";
+    
+    })
     .attr("stroke", "rgba(103,232,249,.75)")
     .attr("stroke-width", 0.35);
 
-  function render() { countriesGroup.selectAll("path").attr("d", path); }
+  function render() {
+
+    countriesGroup.selectAll("path")
+      .attr("d", path);
+  
+    renderColors();
+  
+  }
+  
   let rotation = projection.rotate();
   let isDragging = false;
 
@@ -125,6 +173,25 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
     .on("end", () => { rotation = projection.rotate(); isDragging = false; })
   );
 });
+
+function renderColors() {
+
+  countriesGroup.selectAll("path")
+
+    .attr("fill", d => {
+
+      const name = d.properties.name;
+
+      const value =
+        aerosolLookup[selectedYear]?.[name];
+
+      return value != null
+        ? colorScale(value)
+        : "#1f2937";
+
+    });
+
+}
 
 // ---------- Chart helpers ----------
 const tip = d3.select("#tooltip");
