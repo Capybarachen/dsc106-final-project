@@ -409,17 +409,17 @@ async function loadRegionMap(name){
 
   const continentBounds = {
 
-    Asia: [[25, -10], [150, 60]],
+    Asia: [[25,-10],[150,60]],
 
-    Europe: [[-25, 34], [45, 72]],
+    Europe: [[-25,34],[45,72]],
 
-    Africa: [[-20, -35], [55, 38]],
+    Africa: [[-20,-35],[55,38]],
 
-    NorthAmerica: [[-170, 5], [-50, 75]],
+    NorthAmerica: [[-170,5],[-50,75]],
 
-    SouthAmerica: [[-85, -60], [-30, 15]],
+    SouthAmerica: [[-85,-60],[-30,15]],
 
-    Australia: [[105, -48], [180, -5]]
+    Australia: [[105,-48],[180,-5]]
 
   };
 
@@ -442,8 +442,11 @@ async function loadRegionMap(name){
     });
 
   const featureCollection = {
+
     type: "FeatureCollection",
+
     features: selected
+
   };
 
   const projection =
@@ -453,18 +456,50 @@ async function loadRegionMap(name){
     d3.geoPath(projection);
 
   projection.fitSize(
-    [900, 500],
+    [1200,700],
     featureCollection
+  );
+
+  const continentScale = {
+
+    Asia: 1.2,
+
+    Europe: 2.5,
+
+    Africa: 1.6,
+
+    NorthAmerica: 1.3,
+
+    SouthAmerica: 1.6,
+
+    Australia: 3.0
+
+  };
+
+  projection.scale(
+    projection.scale() *
+    (continentScale[name] || 1)
   );
 
   svg
     .append("g")
+    .attr(
+      "transform",
+      "translate(600,350)"
+    )
     .selectAll("path")
     .data(selected)
     .join("path")
-    .attr("d", path)
+    .attr("d", d => {
+
+      const centeredPath =
+        d3.geoPath(projection);
+
+      return centeredPath(d);
+
+    })
     .attr("fill", "#166534")
     .attr("stroke", "#67e8f9")
-    .attr("stroke-width", 0.5);
+    .attr("stroke-width", 0.6);
 
 }
