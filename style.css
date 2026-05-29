@@ -246,3 +246,14 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
   margin-top:40px;
 
 }
+
+#region-map{
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  width:100%;
+  min-height:700px;
+
+}
