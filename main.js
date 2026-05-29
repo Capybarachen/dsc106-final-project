@@ -172,9 +172,6 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
       .on("end", () => {
   
         showRegion(name);
-          });
-  
-        }
   
       });
   
