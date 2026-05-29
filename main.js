@@ -420,8 +420,11 @@ async function loadRegionMap(name) {
 
   const projection = d3.geoMercator();
 
-  projection.fitSize(
-    [width * 0.9, height * 0.9],
+  projection.fitExtent(
+    [
+      [30, 30],
+      [width - 30, height - 30]
+    ],
     continentFeature
   );
 
