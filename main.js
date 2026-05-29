@@ -171,13 +171,7 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
   
       .on("end", () => {
   
-        const section =
-          document.getElementById(name);
-  
-        if(section){
-  
-          section.scrollIntoView({
-            behavior: "smooth"
+        showRegion(name);
           });
   
         }
@@ -374,3 +368,24 @@ d3.json(DATA_URL).then(data => {
 }).catch(err => {
   document.querySelector(".chart-wrap").innerHTML = `<div style="color:#f87171;font-size:.9rem;padding:20px"><strong>data/timeseries.json not found.</strong><br>Run the folder with a local server, for example: <code>python3 -m http.server 8765</code><br><em>${err.message}</em></div>`;
 });
+
+function showRegion(name){
+
+  const regionView =
+    document.getElementById("region-view");
+
+  regionView.style.display = "block";
+
+  document.getElementById("region-title")
+    .textContent =
+      name.toUpperCase();
+
+  document.getElementById("region-heading")
+    .textContent =
+      name + " Climate Story";
+
+  regionView.scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
