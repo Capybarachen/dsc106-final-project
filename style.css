@@ -211,3 +211,12 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
   color: black;
 
 }
+
+
+.continent-section {
+
+  min-height: 100vh;
+
+  padding: 120px 80px;
+
+}
