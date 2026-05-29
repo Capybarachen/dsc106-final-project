@@ -386,3 +386,29 @@ function showRegion(name){
   });
 
 }
+
+async function loadRegionMap(name){
+
+  const svg =
+    d3.select("#continent-svg");
+
+  svg.selectAll("*").remove();
+
+  const world =
+    await d3.json(
+      "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+    );
+
+  const countries =
+    topojson.feature(
+      world,
+      world.objects.countries
+    );
+
+  const projection =
+    d3.geoMercator();
+
+  const path =
+    d3.geoPath(projection);
+
+}
