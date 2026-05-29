@@ -380,6 +380,8 @@ function showRegion(name){
   document.getElementById("region-heading")
     .textContent =
       name + " Climate Story";
+  
+  loadRegionMap(name);
 
   regionView.scrollIntoView({
     behavior: "smooth"
@@ -410,5 +412,21 @@ async function loadRegionMap(name){
 
   const path =
     d3.geoPath(projection);
+
+  projection
+    .fitSize(
+      [900,500],
+      countries
+    );
+
+  svg
+    .append("g")
+    .selectAll("path")
+    .data(countries.features)
+    .join("path")
+    .attr("d", path)
+    .attr("fill", "#166534")
+    .attr("stroke", "#67e8f9")
+    .attr("stroke-width", 0.5);
 
 }
