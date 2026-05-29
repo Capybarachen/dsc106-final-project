@@ -388,13 +388,26 @@ function showRegion(name){
   });
 
 }
-
-async function loadRegionMap(name){
+async function loadRegionMap(name) {
 
   const svg =
     d3.select("#continent-svg");
 
   svg.selectAll("*").remove();
+
+  const climateData =
+    await d3.csv(
+      "aerosol_1950_2014_by_country.csv"
+    );
+
+  const continentLookup = {};
+
+  climateData.forEach(d => {
+
+    continentLookup[d.country] =
+      d.continent;
+
+  });
 
   const world =
     await d3.json(
@@ -407,36 +420,14 @@ async function loadRegionMap(name){
       world.objects.countries
     );
 
-  const continentBounds = {
-
-    Asia: [[25,-10],[150,60]],
-
-    Europe: [[-25,34],[45,72]],
-
-    Africa: [[-20,-35],[55,38]],
-
-    NorthAmerica: [[-170,5],[-50,75]],
-
-    SouthAmerica: [[-85,-60],[-30,15]],
-
-    Australia: [[105,-48],[180,-5]]
-
-  };
-
-  const bounds =
-    continentBounds[name];
-
   const selected =
     countries.features.filter(d => {
 
-      const c =
-        d3.geoCentroid(d);
+      const countryName =
+        d.properties.name;
 
       return (
-        c[0] >= bounds[0][0] &&
-        c[0] <= bounds[1][0] &&
-        c[1] >= bounds[0][1] &&
-        c[1] <= bounds[1][1]
+        continentLookup[countryName] === name
       );
 
     });
@@ -452,13 +443,19 @@ async function loadRegionMap(name){
   const projection =
     d3.geoMercator();
 
+  projection.fitExtent(
+
+    [
+      [50, 50],
+      [1150, 650]
+    ],
+
+    featureCollection
+
+  );
+
   const path =
     d3.geoPath(projection);
-
-  projection.fitSize(
-    [1400,900],
-    featureCollection
-  );
 
   svg
     .append("g")
@@ -468,6 +465,6 @@ async function loadRegionMap(name){
     .attr("d", path)
     .attr("fill", "#166534")
     .attr("stroke", "#67e8f9")
-    .attr("stroke-width", 0.6);
+    .attr("stroke-width", 0.8);
 
 }
