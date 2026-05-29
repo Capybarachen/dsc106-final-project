@@ -407,22 +407,60 @@ async function loadRegionMap(name){
       world.objects.countries
     );
 
+  const continentBounds = {
+
+    Asia: [[25, -10], [150, 60]],
+
+    Europe: [[-25, 34], [45, 72]],
+
+    Africa: [[-20, -35], [55, 38]],
+
+    NorthAmerica: [[-170, 5], [-50, 75]],
+
+    SouthAmerica: [[-85, -60], [-30, 15]],
+
+    Australia: [[105, -48], [180, -5]]
+
+  };
+
+  const bounds =
+    continentBounds[name];
+
+  const selected =
+    countries.features.filter(d => {
+
+      const c =
+        d3.geoCentroid(d);
+
+      return (
+        c[0] >= bounds[0][0] &&
+        c[0] <= bounds[1][0] &&
+        c[1] >= bounds[0][1] &&
+        c[1] <= bounds[1][1]
+      );
+
+    });
+
+  const featureCollection = {
+    type: "FeatureCollection",
+    features: selected
+  };
+
   const projection =
     d3.geoMercator();
 
   const path =
     d3.geoPath(projection);
 
-  projection
-    .fitSize(
-      [900,500],
-      countries
-    );
+  projection.fitSize(
+    [900, 500],
+    featureCollection
+  );
 
   svg
     .append("g")
     .selectAll("path")
-    .data(countries.features)
+    .data(selected)
     .join("path")
     .attr("d", path)
     .attr("fill", "#166534")
