@@ -120,12 +120,12 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
       scale: 420
     },
   
-    NorthAmerica: {
+    "North America": {
       rotate: [100, -40],
       scale: 380
     },
   
-    SouthAmerica: {
+    "South America": {
       rotate: [60, 10],
       scale: 400
     },
