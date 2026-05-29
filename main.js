@@ -137,8 +137,8 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
   
   };
   
-  function focusContinent(name) {
-  
+  window.focusContinent = function(name) {
+
     const target = continentViews[name];
   
     d3.transition()
@@ -169,8 +169,7 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
   
       });
   
-  }
-
+  };
   
   let rotation = projection.rotate();
   let isDragging = false;
