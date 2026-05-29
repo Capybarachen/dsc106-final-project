@@ -392,6 +392,12 @@ async function loadRegionMap(name) {
 
   const data = await d3.json("data/continents.json");
 
+  console.log(name);
+
+  console.log(
+    data.features[0].properties
+  );
+
   const continentFeature = {
     type: "FeatureCollection",
     features: data.features.filter(
