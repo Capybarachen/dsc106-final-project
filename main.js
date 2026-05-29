@@ -103,6 +103,75 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
     .attr("stroke-width", 0.35);
 
   function render() { countriesGroup.selectAll("path").attr("d", path); }
+  const continentViews = {
+  
+    Asia: {
+      rotate: [-100, -30],
+      scale: 380
+    },
+  
+    Europe: {
+      rotate: [-15, -50],
+      scale: 430
+    },
+  
+    Africa: {
+      rotate: [-20, -5],
+      scale: 420
+    },
+  
+    NorthAmerica: {
+      rotate: [100, -40],
+      scale: 380
+    },
+  
+    SouthAmerica: {
+      rotate: [60, 10],
+      scale: 400
+    },
+  
+    Australia: {
+      rotate: [-140, 25],
+      scale: 500
+    }
+  
+  };
+  
+  function focusContinent(name) {
+  
+    const target = continentViews[name];
+  
+    d3.transition()
+  
+      .duration(2200)
+  
+      .tween("focus", () => {
+  
+        const rotateInterp = d3.interpolate(
+          projection.rotate(),
+          target.rotate
+        );
+  
+        const scaleInterp = d3.interpolate(
+          projection.scale(),
+          target.scale
+        );
+  
+        return t => {
+  
+          projection
+            .rotate(rotateInterp(t))
+            .scale(scaleInterp(t));
+  
+          render();
+  
+        };
+  
+      });
+  
+  }
+
+  
   let rotation = projection.rotate();
   let isDragging = false;
 
@@ -125,6 +194,10 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(w
     .on("end", () => { rotation = projection.rotate(); isDragging = false; })
   );
 });
+
+
+
+
 
 // ---------- Chart helpers ----------
 const tip = d3.select("#tooltip");
