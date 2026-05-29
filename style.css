@@ -220,3 +220,29 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
   padding: 120px 80px;
 
 }
+
+#region-view{
+
+  display:none;
+
+}
+
+#region-map{
+
+  width:100%;
+  height:600px;
+
+  border-radius:20px;
+
+  margin-top:40px;
+
+}
+
+#region-chart{
+
+  width:100%;
+  height:500px;
+
+  margin-top:40px;
+
+}
