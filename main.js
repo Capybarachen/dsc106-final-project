@@ -420,13 +420,6 @@ function showRegion(name){
 async function loadRegionMap(name) {
 
   const data = await d3.json("data/continents.json");
-
-  console.log(name);
-
-  console.log(
-    data.features[0].properties
-  );
-
   const continentFeature = {
     type: "FeatureCollection",
     features: data.features.filter(
@@ -524,11 +517,11 @@ function drawRegionChart(name){
           .domain([
               d3.min(
                   data,
-                  d => d.tas_anomaly
+                  d => d.tas_smooth
               ),
               d3.max(
                   data,
-                  d => d.tas_anomaly
+                  d => d.tas_smooth
               )
           ])
           .nice()
@@ -598,7 +591,7 @@ function drawRegionChart(name){
               d => x(d.year)
           )
           .y(
-              d => yTemp(d.tas_anomaly)
+              d => yTemp(d.tas_smooth)
           );
 
     svg.append("path")
@@ -607,6 +600,43 @@ function drawRegionChart(name){
        .attr("stroke","#ff7f50")
        .attr("stroke-width",3)
        .attr("d",tempLine);
+    const annotations = [
+    
+        {
+            year: 1960,
+            label: "Industrial Growth"
+        },
+    
+        {
+            year: 1980,
+            label: "Pollution Peak"
+        },
+    
+        {
+            year: 2000,
+            label: "Rapid Warming"
+        }
+    
+    ];
+    
+    annotations.forEach(a => {
+    
+        svg.append("line")
+           .attr("x1", x(a.year))
+           .attr("x2", x(a.year))
+           .attr("y1", margin.top)
+           .attr("y2", height - margin.bottom)
+           .attr("stroke", "#94a3b8")
+           .attr("stroke-dasharray", "4 4");
+    
+        svg.append("text")
+           .attr("x", x(a.year) + 5)
+           .attr("y", margin.top + 15)
+           .attr("fill", "#94a3b8")
+           .style("font-size", "11px")
+           .text(a.label);
+    
+    });
 
     // Temperature points
 
@@ -616,7 +646,7 @@ function drawRegionChart(name){
        .append("circle")
        .attr("class","temp-point")
        .attr("cx",d=>x(d.year))
-       .attr("cy",d=>yTemp(d.tas_anomaly))
+       .attr("cy",d=>yTemp(d.tas_smooth))
        .attr("r",3)
        .attr("fill","#ff7f50")
 
@@ -626,7 +656,7 @@ function drawRegionChart(name){
             .style("opacity",1)
             .html(`
                 <strong>${d.year}</strong><br>
-                Temperature: ${d.tas_anomaly.toFixed(2)}°C<br>
+                Temperature: ${d.tas_smooth.toFixed(2)}°C
                 AOD: ${d.aod.toFixed(3)}
             `)
             .style(
@@ -689,9 +719,6 @@ async function loadRegionsData() {
     regionData = await d3.json(
         "data/regions.json"
     );
-
-    console.log(regionData);
-
 }
 
 
