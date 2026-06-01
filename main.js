@@ -427,8 +427,8 @@ async function loadRegionMap(name) {
     )
   };
 
-  const width = 1000;
-  const height = 700;
+  const width = 500;
+  const height = 500;
 
   d3.select("#region-map")
     .selectAll("*")
