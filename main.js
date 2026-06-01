@@ -367,6 +367,28 @@ d3.json(DATA_URL).then(data => {
 });
 
 function showRegion(name){
+  const latestData = {
+    Asia:{
+      aod:0.26,
+      temp:0.65
+    },
+    Europe:{
+      aod:0.15,
+      temp:0.80
+    },
+    Africa:{
+      aod:0.20,
+      temp:1.02
+    },
+    "North America":{
+      aod:0.11,
+      temp:0.78
+    },
+    "South America":{
+      aod:0.14,
+      temp:0.91
+    }
+  };
 
   const regionView =
     document.getElementById("region-view");
@@ -381,12 +403,49 @@ function showRegion(name){
     .textContent =
       name + " Climate Story";
   
+  document.getElementById("info-name")
+    .textContent = name;
+
+  document.getElementById("info-aod")
+    .textContent =
+    `AOD: ${latestData[name].aod}`;
+  
+  document.getElementById("info-temp")
+    .textContent =
+    `Temperature: ${latestData[name].temp}°C`;
+
+  const descriptions = {
+  
+    Asia:
+      "Rapid industrialization increased aerosol pollution after 1950.",
+  
+    Europe:
+      "Aerosol pollution peaked and later declined after clean-air policies.",
+  
+    Africa:
+      "Aerosol levels increased gradually while temperatures continued rising.",
+  
+    "North America":
+      "Pollution declined after regulations, but warming continued.",
+  
+    "South America":
+      "Aerosol levels changed slowly while temperatures increased."
+  };
+  
+  document.getElementById("info-name")
+    .textContent = name;
+  
+  document.getElementById("info-description")
+    .textContent = descriptions[name];
+
+  
+  
   loadRegionMap(name);
 
   regionView.scrollIntoView({
     behavior: "smooth"
   });
-
+  
 }
 async function loadRegionMap(name) {
 
