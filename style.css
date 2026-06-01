@@ -249,31 +249,38 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
 #region-map{
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    width:500px;
 
-  width:100%;
-  min-height:700px;
+    flex:none;
+
+    display:flex;
+
+    justify-content:center;
 
 }
 
 .region-layout{
-    display:flex;
 
-    gap:60px;
+    display:flex;
 
     align-items:center;
 
+    justify-content:center;
+
+    gap:40px;
+
     margin-top:40px;
+
+    margin-bottom:40px;
+
 }
 
 
 
 #region-info{
-    flex:1;
 
-    max-width:350px;
+    width:450px;
+
 }
 
 #region-info h3{
