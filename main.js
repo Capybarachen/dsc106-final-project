@@ -444,8 +444,8 @@ async function loadRegionMap(name) {
 
   projection.fitExtent(
     [
-      [80, 50],
-      [width - 80, height - 50]
+      [180, 120],
+      [width - 180, height - 120]
     ],
     continentFeature
   );
