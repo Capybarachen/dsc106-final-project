@@ -408,6 +408,9 @@ function showRegion(name){
     .textContent = descriptions[name];
 
   loadRegionMap(name);
+  console.log(regionData);
+  console.log(name);
+  
 
   regionView.scrollIntoView({
     behavior: "smooth"
