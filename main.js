@@ -477,14 +477,5 @@ async function loadRegionsData() {
 
 }
 
-async function loadRegionsData() {
-
-    regionData = await d3.json(
-        "data/regions.json"
-    );
-
-    console.log(regionData);
-
-}
 
 loadRegionsData();
