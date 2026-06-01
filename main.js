@@ -7,6 +7,7 @@ let SMOOTH_N = 12;
 let MAX_YEAR = 2014;
 let CHART1_XSC = null;
 let PLAY_INTERVAL = null;
+let regionData = null;
 
 // ---------- Scroll progress + reveal ----------
 function updateProgress() {
@@ -465,3 +466,25 @@ async function loadRegionMap(name) {
     .attr("stroke", "#4ee5ff")
     .attr("stroke-width", 1);
 }
+
+async function loadRegionsData() {
+
+    regionData = await d3.json(
+        "data/regions.json"
+    );
+
+    console.log(regionData);
+
+}
+
+async function loadRegionsData() {
+
+    regionData = await d3.json(
+        "data/regions.json"
+    );
+
+    console.log(regionData);
+
+}
+
+loadRegionsData();
