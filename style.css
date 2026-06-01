@@ -285,3 +285,7 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
     color:#cbd5e1;
     line-height:1.8;
 }
+
+#region-chart{
+    margin-top:20px;
+}
