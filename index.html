@@ -124,19 +124,36 @@
         <p class="section-text" id="region-description">
           Explore regional climate patterns.
         </p>
-    
-        <div id="region-map">
+  
+        <div class="region-layout">
+        
+            <div id="region-map">
+        
+                <svg
+                    id="continent-svg"
+                    width="900"
+                    height="500">
+                </svg>
+        
+            </div>
+        
 
-          <svg
-            id="continent-svg"
-            width="900"
-            height="500">
-          </svg>
+          <div id="region-info">
+
+              <h2 id="info-name">
+                  Select a Region
+              </h2>
+          
+              <p id="info-description">
+                  Click a continent to explore its climate story.
+              </p>
+          
+          </div>
         
         </div>
-    
+        
         <div id="region-chart"></div>
-    
+        
       </div>
     
     </section>
