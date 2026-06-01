@@ -409,8 +409,7 @@ function showRegion(name){
 
   loadRegionMap(name);
   drawRegionChart(name);
-  console.log(regionData);
-  console.log(name);
+
   
 
   regionView.scrollIntoView({
@@ -484,14 +483,14 @@ function drawRegionChart(name){
     d3.select("#region-chart")
       .html("");
 
-    const width = 500;
-    const height = 300;
+    const width = 600;
+    const height = 350;
 
     const margin = {
         top:20,
-        right:20,
+        right:60,
         bottom:40,
-        left:50
+        left:60
     };
 
     const svg =
@@ -499,6 +498,8 @@ function drawRegionChart(name){
           .append("svg")
           .attr("width",width)
           .attr("height",height);
+
+    // X scale
 
     const x =
         d3.scaleLinear()
@@ -510,10 +511,12 @@ function drawRegionChart(name){
           )
           .range([
               margin.left,
-              width-margin.right
+              width - margin.right
           ]);
 
-    const y =
+    // Temperature scale
+
+    const yTemp =
         d3.scaleLinear()
           .domain([
               d3.min(
@@ -525,21 +528,44 @@ function drawRegionChart(name){
                   d => d.tas_anomaly
               )
           ])
+          .nice()
           .range([
-              height-margin.bottom,
+              height - margin.bottom,
               margin.top
           ]);
+
+    // AOD scale
+
+    const yAod =
+        d3.scaleLinear()
+          .domain([
+              d3.min(
+                  data,
+                  d => d.aod
+              ),
+              d3.max(
+                  data,
+                  d => d.aod
+              )
+          ])
+          .nice()
+          .range([
+              height - margin.bottom,
+              margin.top
+          ]);
+
+    // X axis
 
     svg.append("g")
        .attr(
            "transform",
-           `translate(0,${
-               height-margin.bottom
-           })`
+           `translate(0,${height-margin.bottom})`
        )
        .call(
            d3.axisBottom(x)
        );
+
+    // Left axis
 
     svg.append("g")
        .attr(
@@ -547,21 +573,69 @@ function drawRegionChart(name){
            `translate(${margin.left},0)`
        )
        .call(
-           d3.axisLeft(y)
+           d3.axisLeft(yTemp)
        );
 
-    const line =
+    // Right axis
+
+    svg.append("g")
+       .attr(
+           "transform",
+           `translate(${width-margin.right},0)`
+       )
+       .call(
+           d3.axisRight(yAod)
+       );
+
+    // Temperature line
+
+    const tempLine =
         d3.line()
-          .x(d => x(d.year))
-          .y(d => y(d.tas_anomaly));
+          .x(
+              d => x(d.year)
+          )
+          .y(
+              d => yTemp(d.tas_anomaly)
+          );
 
     svg.append("path")
        .datum(data)
        .attr("fill","none")
        .attr("stroke","#ff7f50")
        .attr("stroke-width",3)
-       .attr("d",line);
+       .attr("d",tempLine);
 
+    // AOD line
+
+    const aodLine =
+        d3.line()
+          .x(
+              d => x(d.year)
+          )
+          .y(
+              d => yAod(d.aod)
+          );
+
+    svg.append("path")
+       .datum(data)
+       .attr("fill","none")
+       .attr("stroke","#60a5fa")
+       .attr("stroke-width",3)
+       .attr("d",aodLine);
+
+    // Labels
+
+    svg.append("text")
+       .attr("x",margin.left)
+       .attr("y",15)
+       .attr("fill","#ff7f50")
+       .text("Temperature Anomaly");
+
+    svg.append("text")
+       .attr("x",width-150)
+       .attr("y",15)
+       .attr("fill","#60a5fa")
+       .text("Aerosol Optical Depth");
 }
 
 
