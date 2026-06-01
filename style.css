@@ -262,11 +262,34 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
 }
 
-.region-layout{
+#region-info{
+
+    max-width:900px;
+
+    margin:40px auto;
+
+    text-align:center;
+
+}
+
+#region-map{
+
     display:flex;
-    align-items:center;
+
     justify-content:center;
-    gap:80px;
+
+    margin:40px 0;
+
+}
+
+#region-chart{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:40px;
+
 }
 
 #region-map{
