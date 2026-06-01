@@ -427,7 +427,7 @@ async function loadRegionMap(name) {
     )
   };
 
-  const width = 700;
+  const width = 1000;
   const height = 500;
 
   d3.select("#region-map")
@@ -444,8 +444,8 @@ async function loadRegionMap(name) {
 
   projection.fitExtent(
     [
-      [30, 30],
-      [width - 30, height - 30]
+      [80, 50],
+      [width - 80, height - 50]
     ],
     continentFeature
   );
