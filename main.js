@@ -508,7 +508,7 @@ function drawRegionChart(name){
     const height = 500;
 
     const margin = {
-        top:30,
+        top:50,
         right:90,
         bottom:50,
         left:60
@@ -641,7 +641,7 @@ function drawRegionChart(name){
     
         svg.append("text")
            .attr("x", x(a.year) + 5)
-           .attr("y", margin.top + 15)
+           .attr("y", 40)
            .attr("fill", "#94a3b8")
            .style("font-size", "11px")
            .text(a.label);
