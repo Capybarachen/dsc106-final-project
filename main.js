@@ -499,6 +499,9 @@ function drawRegionChart(name){
           .attr("width",width)
           .attr("height",height);
 
+    const tooltip =
+        d3.select("#tooltip");
+
     // X scale
 
     const x =
@@ -605,6 +608,45 @@ function drawRegionChart(name){
        .attr("stroke-width",3)
        .attr("d",tempLine);
 
+    // Temperature points
+
+    svg.selectAll(".temp-point")
+       .data(data)
+       .enter()
+       .append("circle")
+       .attr("class","temp-point")
+       .attr("cx",d=>x(d.year))
+       .attr("cy",d=>yTemp(d.tas_anomaly))
+       .attr("r",3)
+       .attr("fill","#ff7f50")
+
+       .on("mousemove",(event,d)=>{
+
+          tooltip
+            .style("opacity",1)
+            .html(`
+                <strong>${d.year}</strong><br>
+                Temperature: ${d.tas_anomaly.toFixed(2)}°C<br>
+                AOD: ${d.aod.toFixed(3)}
+            `)
+            .style(
+                "left",
+                (event.pageX+15)+"px"
+            )
+            .style(
+                "top",
+                (event.pageY-20)+"px"
+            );
+
+       })
+
+       .on("mouseout",()=>{
+
+          tooltip
+            .style("opacity",0);
+
+       });
+
     // AOD line
 
     const aodLine =
@@ -629,13 +671,16 @@ function drawRegionChart(name){
        .attr("x",margin.left)
        .attr("y",15)
        .attr("fill","#ff7f50")
-       .text("Temperature Anomaly");
+       .style("font-size","12px")
+       .text("Temperature");
 
     svg.append("text")
-       .attr("x",width-150)
+       .attr("x",width-120)
        .attr("y",15)
        .attr("fill","#60a5fa")
-       .text("Aerosol Optical Depth");
+       .style("font-size","12px")
+       .text("AOD");
+
 }
 
 
