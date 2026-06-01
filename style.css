@@ -289,3 +289,23 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 #region-chart{
     margin-top:20px;
 }
+
+#tooltip{
+    position:absolute;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    background:#0f172a;
+
+    color:white;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    font-size:0.9rem;
+}
