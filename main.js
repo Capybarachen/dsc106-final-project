@@ -383,22 +383,22 @@ function showRegion(name){
       name + " Climate Story";
 
   const descriptions = {
-
-    Asia:
-      "Rapid industrialization increased aerosol pollution after 1950.",
-
-    Europe:
-      "Aerosol pollution peaked and later declined after clean-air policies.",
-
-    Africa:
-      "Aerosol levels increased gradually while temperatures continued rising.",
-
-    "North America":
-      "Pollution declined after regulations, but warming continued.",
-
-    "South America":
-      "Aerosol levels changed slowly while temperatures increased."
-
+  
+      Asia:
+        "After 1950, rapid industrialization increased aerosol pollution. Temperature also rose steadily, suggesting that pollution and warming changed together.",
+  
+      Europe:
+        "Europe experienced high aerosol levels during industrial expansion. After clean-air regulations, aerosol levels declined while temperatures continued rising.",
+  
+      Africa:
+        "Aerosol levels increased gradually across Africa. Temperature anomalies became increasingly positive after the late twentieth century.",
+  
+      "North America":
+        "Pollution controls reduced aerosol concentrations after their peak. Despite cleaner air, temperatures continued to increase.",
+  
+      "South America":
+        "Aerosol levels changed more slowly than other regions, but warming trends remained visible throughout the twentieth century."
+  
   };
 
   document.getElementById("info-name")
@@ -472,6 +472,34 @@ function drawRegionChart(name){
 
     const data =
         regionData[key];
+  
+    const regionAnnotations = {
+    
+        asia:[
+            {year:1950,label:"Industrialization"},
+            {year:2000,label:"Rapid Growth"}
+        ],
+    
+        europe:[
+            {year:1970,label:"Clean Air Policies"}
+        ],
+    
+        north_america:[
+            {year:1970,label:"Clean Air Act"}
+        ],
+    
+        south_america:[
+            {year:1980,label:"Urban Expansion"}
+        ],
+    
+        africa:[
+            {year:1990,label:"Population Growth"}
+        ]
+    
+    };
+    
+    const annotations =
+        regionAnnotations[key] || [];
 
     d3.select("#region-chart")
       .html("");
@@ -600,25 +628,7 @@ function drawRegionChart(name){
        .attr("stroke","#ff7f50")
        .attr("stroke-width",3)
        .attr("d",tempLine);
-    const annotations = [
-    
-        {
-            year: 1960,
-            label: "Industrial Growth"
-        },
-    
-        {
-            year: 1980,
-            label: "Pollution Peak"
-        },
-    
-        {
-            year: 2000,
-            label: "Rapid Warming"
-        }
-    
-    ];
-    
+  
     annotations.forEach(a => {
     
         svg.append("line")
