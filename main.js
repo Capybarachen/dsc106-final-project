@@ -504,8 +504,8 @@ function drawRegionChart(name){
     d3.select("#region-chart")
       .html("");
 
-    const width = 650;
-    const height = 400;
+    const width = 1300;
+    const height = 500;
 
     const margin = {
         top:30,
