@@ -408,6 +408,7 @@ function showRegion(name){
     .textContent = descriptions[name];
 
   loadRegionMap(name);
+  drawRegionChart(name);
   console.log(regionData);
   console.log(name);
   
@@ -469,6 +470,21 @@ async function loadRegionMap(name) {
     .attr("stroke", "#4ee5ff")
     .attr("stroke-width", 1);
 }
+
+function drawRegionChart(name){
+
+    const key =
+        name
+          .toLowerCase()
+          .replaceAll(" ", "_");
+
+    const data =
+        regionData[key];
+
+    console.log(data);
+
+}
+
 
 async function loadRegionsData() {
 
