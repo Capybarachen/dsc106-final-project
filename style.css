@@ -276,7 +276,7 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
     max-width:350px;
 }
 
-#region-info h2{
+#region-info h3{
     font-size:3rem;
     margin-bottom:1rem;
 }
