@@ -241,7 +241,10 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 #region-chart{
 
   width:100%;
-  height:500px;
+
+  display:flex;
+
+  justify-content:center;
 
   margin-top:40px;
 
