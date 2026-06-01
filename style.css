@@ -266,11 +266,11 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
     display:flex;
 
-    align-items:center;
+    align-items:flex-start;
 
-    justify-content:center;
+    justify-content:space-between;
 
-    gap:40px;
+    gap:60px;
 
     margin-top:40px;
 
@@ -278,13 +278,20 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
 }
 
+#region-map{
 
+    flex:2;
+
+}
 
 #region-info{
 
-    width:450px;
+    flex:1;
+
+    max-width:420px;
 
 }
+
 
 #region-info h3{
     font-size:3rem;
