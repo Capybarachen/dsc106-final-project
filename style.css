@@ -257,3 +257,24 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
   min-height:700px;
 
 }
+
+.map-layout{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+}
+
+#world-map{
+    flex:2;
+}
+
+#continent-panel{
+    flex:1;
+
+    background:#111827;
+    padding:20px;
+
+    border-radius:12px;
+
+    min-height:300px;
+}
