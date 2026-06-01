@@ -221,6 +221,20 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
 }
 
+.region-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:80px;
+
+    margin-top:40px;
+
+}
+
 #region-view{
 
   display:none;
@@ -252,23 +266,22 @@ select { color: white; padding: 10px 14px; border: 1px solid var(--line); backgr
 
 #region-map{
 
-    width:500px;
+    width:700px;
 
-    flex:none;
+    height:600px;
 
     display:flex;
 
     justify-content:center;
 
-}
+    align-items:center;
 
+}
 #region-info{
 
-    max-width:900px;
+    max-width:500px;
 
-    margin:40px auto;
-
-    text-align:center;
+    text-align:left;
 
 }
 
